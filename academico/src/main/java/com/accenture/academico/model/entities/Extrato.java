@@ -1,6 +1,7 @@
 package com.accenture.academico.model.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,43 +14,37 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "tb_conta_corrente")
-public class ContaCorrente implements Serializable {
+@Table(name = "tb_extrato")
+public class Extrato implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String contaCorrenteNumero;
-	private Double saldo;
+	@JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	private Instant dataHoraMovimento;
+	
+	private Double valorOperacao;
 	
 	@ManyToOne
-	@JoinColumn(name = "client_id")
-	private Cliente client;
+	@JoinColumn(name = "conta_id")
+	private Cliente conta;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "conta")
-	private List<Extrato> extrato = new ArrayList<>();
-	
-	public ContaCorrente() {
-		
+	public Extrato() {
 	}
 
-	
-
-	public ContaCorrente(Long id, String contaCorrenteNumero, Double saldo, Cliente client) {
+	public Extrato(Long id, Instant dataHoraMovimento, double valorOperacao, Cliente conta) {
 		super();
 		this.id = id;
-		this.contaCorrenteNumero = contaCorrenteNumero;
-		this.saldo = saldo;
-		this.client = client;
+		this.dataHoraMovimento = dataHoraMovimento;
+		this.valorOperacao = valorOperacao;
+		this.conta = conta;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -59,34 +54,29 @@ public class ContaCorrente implements Serializable {
 		this.id = id;
 	}
 
-	public String getContaCorrenteNumero() {
-		return contaCorrenteNumero;
+	public Instant getDataHoraMovimento() {
+		return dataHoraMovimento;
 	}
 
-	public void setContaCorrenteNumero(String contaCorrenteNumero) {
-		this.contaCorrenteNumero = contaCorrenteNumero;
+	public void setDataHoraMovimento(Instant dataHoraMovimento) {
+		this.dataHoraMovimento = dataHoraMovimento;
 	}
 
-	public Double getSaldo() {
-		return saldo;
+	public double getValorOperacao() {
+		return valorOperacao;
 	}
 
-	public void setSaldo(Double saldo) {
-		this.saldo = saldo;
-	}
-	
-
-	public Cliente getClient() {
-		return client;
+	public void setValorOperacao(double valorOperacao) {
+		this.valorOperacao = valorOperacao;
 	}
 
-
-
-	public void setClient(Cliente client) {
-		this.client = client;
+	public Cliente getConta() {
+		return conta;
 	}
 
-
+	public void setConta(Cliente conta) {
+		this.conta = conta;
+	}
 
 	@Override
 	public int hashCode() {
@@ -104,7 +94,7 @@ public class ContaCorrente implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ContaCorrente other = (ContaCorrente) obj;
+		Extrato other = (Extrato) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -114,3 +104,4 @@ public class ContaCorrente implements Serializable {
 	}
 	
 }
+
