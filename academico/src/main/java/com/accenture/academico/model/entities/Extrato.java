@@ -5,7 +5,11 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -102,6 +106,12 @@ public class Extrato implements Serializable {
 			return false;
 		return true;
 	}
-	
+	 @Enumerated(EnumType.STRING)
+	 @Column(name = "OperacoesBancarias")
+	    private OperacoesBancarias operacoesBancarias;
+	 
+	 @OneToMany(cascade = CascadeType.ALL)
+	    @JoinColumn(name = "id_extratos")
+	    private List<Extrato> extratos;
 }
 
