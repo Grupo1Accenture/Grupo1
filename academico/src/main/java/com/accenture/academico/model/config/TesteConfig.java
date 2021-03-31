@@ -42,12 +42,17 @@ public class TesteConfig implements CommandLineRunner{
 		ContaCorrente conta2 = new ContaCorrente(null, "33333-3", 100.00, cliente2);
 		ContaCorrente conta3 = new ContaCorrente(null, "44444-4", 500.00, cliente1);
 		
-		Extrato extrato1 = new Extrato(null, Instant.parse("2019-06-20T19:53:07Z"), 100.00, cliente2);
+		
+		Extrato extrato1 = new Extrato(null, Instant.now(), 100.00, cliente2);
 		Extrato extrato2 = new Extrato(null, Instant.parse("2019-07-21T03:42:10Z"), 800.00, cliente1);
 		
 		clienteRepository.saveAll(Arrays.asList(cliente1, cliente2));
 		agenciaReposiroty.saveAll(Arrays.asList(agencia1, agencia2, agencia3));
 		contaCorrenteRepository.saveAll(Arrays.asList(conta1, conta2, conta3));
 		extratoRepository.saveAll(Arrays.asList(extrato1, extrato2));
+
+		conta1.setSaque(500.00);
+		conta3.setDeposito(250.00);
+		contaCorrenteRepository.saveAll(Arrays.asList(conta1, conta3));
 	}
 }

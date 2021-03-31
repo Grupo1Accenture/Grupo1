@@ -39,8 +39,6 @@ public class ContaCorrente implements Serializable {
 		
 	}
 
-	
-
 	public ContaCorrente(Long id, String contaCorrenteNumero, Double saldo, Cliente client) {
 		super();
 		this.id = id;
@@ -48,8 +46,6 @@ public class ContaCorrente implements Serializable {
 		this.saldo = saldo;
 		this.client = client;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -80,13 +76,17 @@ public class ContaCorrente implements Serializable {
 		return client;
 	}
 
-
-
 	public void setClient(Cliente client) {
 		this.client = client;
 	}
-
-
+	public void setSaque(Double saque) {
+		double saldo = getSaldo() - saque;
+		setSaldo(saldo);
+	}
+	public void setDeposito(Double deposito) {
+		double saldo = getSaldo() + deposito;
+		setSaldo(saldo);
+	}
 
 	@Override
 	public int hashCode() {
