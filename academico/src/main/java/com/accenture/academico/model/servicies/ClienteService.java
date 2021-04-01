@@ -3,11 +3,16 @@ package com.accenture.academico.model.servicies;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.accenture.academico.model.entities.Cliente;
 import com.accenture.academico.model.repositories.ClienteRepository;
+import com.accenture.academico.model.servicies.exceptions.DatabaseException;
 import com.accenture.academico.model.servicies.exceptions.ResourceNotFoundException;
 
 @Service
@@ -27,12 +32,22 @@ public class ClienteService {
 		return repository.save(obj);
 	}
 	public void delete(Long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		} catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		} catch(DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	public Cliente update(Long id,Cliente obj ) {
-		Cliente entity = repository.getOne(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			Cliente entity = repository.getOne(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 	private void updateData(Cliente entity, Cliente obj) {
 		entity.setName(obj.getName());
