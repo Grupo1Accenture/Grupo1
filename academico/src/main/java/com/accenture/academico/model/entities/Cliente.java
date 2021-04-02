@@ -27,10 +27,11 @@ public class Cliente implements Serializable {
 	private String phone;
 	
 	
-	@JsonIgnore
+	/*@JsonIgnore
 	@OneToMany(mappedBy = "client")
-	private List<Agencia> agencia = new ArrayList<>();
+	private List<Agencia> agencia = new ArrayList<>();*/
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<ContaCorrente> conta = new ArrayList<>();
 	
@@ -80,13 +81,13 @@ public class Cliente implements Serializable {
 	
 	
 
-	public List<Agencia> getAgencia() {
+	/*public List<Agencia> getAgencia() {
 		return agencia;
 	}
 
 	public void setAgencia(List<Agencia> agencia) {
 		this.agencia = agencia;
-	}
+	}*/
 
 	@Override
 	public int hashCode() {

@@ -1,14 +1,17 @@
 package com.accenture.academico.model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name= "tb_agencia")
@@ -18,13 +21,17 @@ public class Agencia implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String nome;
 	private String endereco;
 	private String telefone;
 	
-	@ManyToOne
+	@JsonIgnore
+	@OneToMany(mappedBy = "agencia")
+	private List<ContaCorrente> conta = new ArrayList<>();
+	/*@ManyToOne
 	@JoinColumn(name = "client_id")
-	private Cliente client;
+	private Cliente client;*/
 	
 	public Agencia() {
 	}
@@ -35,7 +42,7 @@ public class Agencia implements Serializable {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.telefone = telefone;
-		this.client = client;
+		//this.client = client;
 	}
 
 	public Long getId() {
@@ -71,13 +78,14 @@ public class Agencia implements Serializable {
 	}
 	
 
-	public Cliente getClient() {
+	/*public Cliente getClient() {
 		return client;
 	}
 
 	public void setClient(Cliente client) {
 		this.client = client;
-	}
+	}*/
+	
 
 	@Override
 	public int hashCode() {
@@ -88,6 +96,14 @@ public class Agencia implements Serializable {
 	}
 
 
+
+	public List<ContaCorrente> getConta() {
+		return conta;
+	}
+
+	public void setConta(List<ContaCorrente> conta) {
+		this.conta = conta;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

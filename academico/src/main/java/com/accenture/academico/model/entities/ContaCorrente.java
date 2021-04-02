@@ -31,6 +31,10 @@ public class ContaCorrente implements Serializable {
 	@JoinColumn(name = "client_id")
 	private Cliente client;
 	
+	@ManyToOne
+	@JoinColumn(name = "agencia_id")
+	private Agencia agencia;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "conta")
 	private List<Extrato> extrato = new ArrayList<>();
@@ -39,12 +43,13 @@ public class ContaCorrente implements Serializable {
 		
 	}
 
-	public ContaCorrente(Long id, String contaCorrenteNumero, Double saldo, Cliente client) {
+	public ContaCorrente(Long id, String contaCorrenteNumero, Double saldo, Cliente client, Agencia agencia) {
 		super();
 		this.id = id;
 		this.contaCorrenteNumero = contaCorrenteNumero;
 		this.saldo = saldo;
 		this.client = client;
+		this.agencia = agencia;
 	}
 
 	public Long getId() {
@@ -86,6 +91,22 @@ public class ContaCorrente implements Serializable {
 	public void setDeposito(Double deposito) {
 		double saldo = getSaldo() + deposito;
 		setSaldo(saldo);
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
+	}
+	
+	public List<Extrato> getExtrato() {
+		return extrato;
+	}
+
+	public void setExtrato(List<Extrato> extrato) {
+		this.extrato = extrato;
 	}
 
 	@Override

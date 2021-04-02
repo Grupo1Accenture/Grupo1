@@ -2,8 +2,6 @@ package com.accenture.academico.model.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_extrato")
@@ -38,10 +34,10 @@ public class Extrato implements Serializable {
 	public Extrato() {
 	}
 
-	public Extrato(Long id, Instant dataHoraMovimento, double valorOperacao, Cliente conta) {
+	public Extrato(Long id, double valorOperacao, Cliente conta) {
 		super();
 		this.id = id;
-		this.dataHoraMovimento = dataHoraMovimento;
+		setDataHoraMovimento(getDataHoraMovimento());
 		this.valorOperacao = valorOperacao;
 		this.conta = conta;
 	}
@@ -55,7 +51,7 @@ public class Extrato implements Serializable {
 	}
 
 	public Instant getDataHoraMovimento() {
-		return dataHoraMovimento;
+		return Instant.now();
 	}
 
 	public void setDataHoraMovimento(Instant dataHoraMovimento) {
